@@ -4,52 +4,45 @@ import axios from 'axios';
 import { Lock, Check, X, ArrowLeft } from 'lucide-react';
 
 function ResetPassword() {
-  // 1. Outil magique pour lire le token dans la barre d'adresse de l'email
   const [searchParams] = useSearchParams();
-  const token = searchParams.get('token'); // Récupère la longue chaîne après ?token=
+  const token = searchParams.get('token'); 
+  const navigate = useNavigate(); 
 
-  const navigate = useNavigate(); // Permet de rediriger l'utilisateur automatiquement après le succès
-
-  // 2. Nos variables d'états pour le formulaire
   const [newPassword, setNewPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  // 3. Logique visuelle de la force du mot de passe (Comme sur l'inscription !)
-  const hasMinLength = newPassword.length >= 6;
-  const hasUppercase = /[A-Z]/.test(newPassword);
-  const hasLowercase = /[a-z]/.test(newPassword);
-  const hasNumber = /[0-9]/.test(newPassword);
-  const hasSpecial = /[!@#$%^&*(),.?":{}|<>_+\-=\[\]\\\/]/.test(newPassword);
+  const length = newPassword.length >= 6;
+  const uppercase = /[A-Z]/.test(newPassword);
+  const lowercase = /[a-z]/.test(newPassword);
+  const number = /[0-9]/.test(newPassword);
+  const special = /[!@#$%^&*(),.?":{}|<>_+\-=\[\]\\\/]/.test(newPassword);
 
-  const strengthScore = [hasMinLength, hasUppercase, hasLowercase, hasNumber, hasSpecial].filter(Boolean).length;
+  const strength = [length, uppercase, lowercase, number, special].filter(Boolean).length;
 
-  const getStrengthText = () => {
+  const text = () => {
     if (newPassword.length === 0) return '';
-    if (strengthScore <= 2) return 'Très Faible';
-    if (strengthScore <= 4) return 'Moyen';
+    if (strength <= 2) return 'Très Faible';
+    if (strength <= 4) return 'Moyen';
     return 'Fort';
   };
 
-  // 4. Fonction qui envoie le token + le nouveau mot de passe au backend Express
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
 
-    // Sécurité front : on s'assure que le mot de passe est robuste avant d'envoyer
-    if (strengthScore < 5) {
+    if (strength < 5) {
       setError("Veuillez respecter tous les critères de sécurité.");
       return;
     }
 
     if (!token) {
-      setError("Le jeton de sécurité (token) est manquant. Veuillez recliquer sur le lien de votre email.");
+      setError("Le jeton de sécurité est manquant. Veuillez recliquer sur le lien de votre email.");
       return;
     }
 
     try {
-      // Envoi des deux informations attendues par ta ligne 162 du backend
       await axios.post('http://localhost:3000/api/auth/reset-password', {
         token,
         newPassword
@@ -58,7 +51,6 @@ function ResetPassword() {
       setSuccess("Mot de passe réinitialisé avec succès ! Redirection...");
       setNewPassword('');
 
-      // On attend 3 secondes pour laisser l'utilisateur lire le message vert, puis on le redirige vers le login
       setTimeout(() => {
         navigate('/login');
       }, 3000);
@@ -85,7 +77,6 @@ function ResetPassword() {
 
         <form onSubmit={handleSubmit} className="text-left">
           
-          {/* Champ du Nouveau Mot de Passe */}
           <div className="flex items-center bg-[#16241c] rounded-md mb-3 px-4 py-3 border border-[#253a2d] focus-within:border-[#2ecc71] transition-colors">
             <Lock className="text-white/50 mr-3 w-5 h-5" />
             <input 
@@ -122,27 +113,26 @@ function ResetPassword() {
               </div>
 
 
-              {/* Les critères à cocher en vert */}
               <div className="space-y-1 text-xs text-white/60">
                 <div className="flex items-center gap-2">
-                  {hasMinLength ? <Check className="w-3.5 h-3.5 text-[#2ecc71]" /> : <X className="w-3.5 h-3.5 text-red-400" />}
-                  <span className={hasMinLength ? 'text-white/80' : 'text-white/40'}>Au moins 6 caractères</span>
+                  {length ? <Check className="w-3.5 h-3.5 text-[#2ecc71]" /> : <X className="w-3.5 h-3.5 text-red-400" />}
+                  <span className={length ? 'text-white/80' : 'text-white/40'}>Au moins 6 caractères</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  {hasUppercase ? <Check className="w-3.5 h-3.5 text-[#2ecc71]" /> : <X className="w-3.5 h-3.5 text-red-400" />}
+                  {uppercase ? <Check className="w-3.5 h-3.5 text-[#2ecc71]" /> : <X className="w-3.5 h-3.5 text-red-400" />}
                   <span className={hasUppercase ? 'text-white/80' : 'text-white/40'}>Une lettre majuscule</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  {hasLowercase ? <Check className="w-3.5 h-3.5 text-[#2ecc71]" /> : <X className="w-3.5 h-3.5 text-red-400" />}
-                  <span className={hasLowercase ? 'text-white/80' : 'text-white/40'}>Une lettre minuscule</span>
+                  {lowercase ? <Check className="w-3.5 h-3.5 text-[#2ecc71]" /> : <X className="w-3.5 h-3.5 text-red-400" />}
+                  <span className={lowercase ? 'text-white/80' : 'text-white/40'}>Une lettre minuscule</span>
                 </div>
                 <div className="flex items-center gap-2">
                   {hasNumber ? <Check className="w-3.5 h-3.5 text-[#2ecc71]" /> : <X className="w-3.5 h-3.5 text-red-400" />}
-                  <span className={hasNumber ? 'text-white/80' : 'text-white/40'}>Un chiffre</span>
+                  <span className={number ? 'text-white/80' : 'text-white/40'}>Un chiffre</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  {hasSpecial ? <Check className="w-3.5 h-3.5 text-[#2ecc71]" /> : <X className="w-3.5 h-3.5 text-red-400" />}
-                  <span className={hasSpecial ? 'text-white/80' : 'text-white/40'}>Un caractère spécial</span>
+                  {special ? <Check className="w-3.5 h-3.5 text-[#2ecc71]" /> : <X className="w-3.5 h-3.5 text-red-400" />}
+                  <span className={special ? 'text-white/80' : 'text-white/40'}>Un caractère spécial</span>
                 </div>
               </div>
             </div>
