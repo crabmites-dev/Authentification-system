@@ -11,18 +11,14 @@ function Signup() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  // 2. La logique de vérification du mot de passe (Toutes les variables sont bien là !)
   const hasMinLength = password.length >= 6;
   const hasUppercase = /[A-Z]/.test(password);
   const hasLowercase = /[a-z]/.test(password);
   const hasNumber = /[0-9]/.test(password);
-  // Correction universelle pour Chrome du filtre des caractères spéciaux
   const hasSpecial = /[!@#$%^&*(),.?":{}|<>_+\-=\[\]\\\/]/.test(password);
 
-  // Calcule le score total (combien de critères sur 5 sont au statut "true")
   const strengthScore = [hasMinLength, hasUppercase, hasLowercase, hasNumber, hasSpecial].filter(Boolean).length;
 
-  // Détermine le texte de l'indicateur selon le score obtenu
   const getStrengthText = () => {
     if (password.length === 0) return '';
     if (strengthScore <= 2) return 'Très Faible';
@@ -30,7 +26,6 @@ function Signup() {
     return 'Fort';
   };
 
-  // 3. La fonction d'envoi vers Express
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -63,7 +58,6 @@ function Signup() {
     }
   };
 
-  // 4. Le rendu visuel stylisé avec Tailwind CSS
   return (
     <div className="flex justify-center items-center h-screen w-screen bg-[radial-gradient(circle,_#1a4d32_0%,_#0d1f14_100%)] font-sans m-0 overflow-hidden">
       
@@ -90,7 +84,6 @@ function Signup() {
             />
           </div>
 
-          {/* Champ : Adresse Email */}
           <div className="flex items-center bg-[#16241c] rounded-md mb-5 px-4 py-3 border border-[#253a2d] focus-within:border-[#2ecc71] transition-colors">
             <Mail className="text-white/50 mr-3 w-5 h-5" />
             <input 
@@ -103,7 +96,6 @@ function Signup() {
             />
           </div>
 
-          {/* Champ : Mot de passe */}
           <div className="flex items-center bg-[#16241c] rounded-md mb-3 px-4 py-3 border border-[#253a2d] focus-within:border-[#2ecc71] transition-colors">
             <Lock className="text-white/50 mr-3 w-5 h-5" />
             <input 
@@ -116,7 +108,6 @@ function Signup() {
             />
           </div>
 
-          {/* Section Dynamique : Indicateur de force */}
           {password.length > 0 && (
             <div className="mb-5">
               <div className="flex justify-between items-center mb-2">
@@ -126,7 +117,6 @@ function Signup() {
                 </span>
               </div>
               
-              {/* Les 5 petites barres de progression colorées */}
               <div className="grid grid-cols-5 gap-1 mb-4">
                 {[0, 1, 2, 3, 4].map((index) => (
                   <div 
@@ -140,7 +130,6 @@ function Signup() {
                 ))}
               </div>
 
-              {/* Liste visuelle des 5 contraintes de sécurité */}
               <div className="space-y-1 text-xs text-white/60">
                 <div className="flex items-center gap-2">
                   {hasMinLength ? <Check className="w-3.5 h-3.5 text-[#2ecc71]" /> : <X className="w-3.5 h-3.5 text-red-400" />}
@@ -166,7 +155,6 @@ function Signup() {
             </div>
           )}
 
-          {/* Bouton de validation vert avec effet dégradé */}
           <button type="submit" className="bg-gradient-to-r from-[#2ecc71] to-[#27ae60] hover:from-[#27ae60] hover:to-[#219653] text-white border-none rounded-md py-3 w-full text-base font-bold cursor-pointer mt-2 transition-all shadow-md active:scale-[0.98]">
             S'inscrire
           </button>
