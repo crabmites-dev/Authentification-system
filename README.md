@@ -88,7 +88,7 @@ git clone https://github.com/votre-utilisateur/pern-authentication.git
 cd pern-authentication
 ```
 
-## Installer les dépendances
+## Installer les dépendances 
 
 ### Backend
 
