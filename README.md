@@ -1,6 +1,6 @@
 # Système d'Authentification PERN
 
-## Présentation 
+## Présentation
 
 Ce projet est un système d'authentification complet développé avec la **stack PERN (PostgreSQL, Express.js, React et Node.js)**. Il met en œuvre une architecture client-serveur moderne permettant la gestion sécurisée des utilisateurs au travers d'une API REST et d'une interface web React.
 
