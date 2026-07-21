@@ -9,7 +9,7 @@ L'objectif principal de ce projet est de proposer une base solide pour le dével
 ---
 
 # Fonctionnalités
-
+ 
 Le système permet notamment :
 
 * Création d'un compte utilisateur
