@@ -1,6 +1,6 @@
 # Système d'Authentification PERN
 
-## Présentation 
+## Présentation  
 
 Ce projet est un système d'authentification complet développé avec la **stack PERN (PostgreSQL, Express.js, React et Node.js)**. Il met en œuvre une architecture client-serveur moderne permettant la gestion sécurisée des utilisateurs au travers d'une API REST et d'une interface web React.
 
@@ -176,16 +176,5 @@ Ce projet pourra être enrichi par plusieurs fonctionnalités complémentaires, 
 * Conteneurisation avec Docker
 * Déploiement automatisé (CI/CD)
 
----
 
-# Licence
 
-Ce projet est distribué sous licence **MIT**.
-
----
-
-# Auteur
-
-**Mmor Mbow**
-
-Étudiant en génie logiciel, passionné par le développement backend, les API REST, les bases de données et les architectures web modernes.
